@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+    for image in "$@"; do
+    	convert -thumbnail $(tput cols) "$image" txt:- |\
+    	awk -F '[)(,:]' '
+    		/white/ { $9=$10=$11=255 } # imagemagick randomly uses colour names instead of rgb values sometimes
+    		/black/ { $9=$10=$11=0   }
+    		!/^#/   {
+    			if ( $2 % 2 ) {
+    				if ( p[$1] == "0,0,0" ) { p[$1] = "1,0,0" } # change black to rgb(1,0,0) to workaround bug in some terminals that set it to terminal background colour
+    				split( p[$1], c, "," )
+    				printf "\033[48;2;" c[1] ";" c[2] ";" c[3] ";38;2;" $9 ";" $10 ";" $11 "m▄"
+    			}
+    			else { p[$1] = $9 "," $10 "," $11 } # store
+    		}'
+    	echo -e "\e[0;0m" # reset terminal colours
+    done
