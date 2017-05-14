@@ -4,7 +4,7 @@ What each script does:
 
 <table>
 	<tr>
-		<th>fans</th>
+		<th><a href="fans">fans</a></th>
 		<td><code>fans &lt;rpm of first fan&gt; [rpm of second fan, if omitted first arg is applied to both fans]</code></td>
 		<td>E.g. <code>fans 2000</code>, <code>fans 1000 1500</code></td>
 	</tr>
@@ -12,7 +12,7 @@ What each script does:
 		<td colspan=3>Changes the speed of the fans on my Corsair H110i GT via <code>printf</code>'ing directly into its <code>/dev/hidraw</code> device. I believe with some adjustments it should work on other Corsair Hydro series liquid cooling systems, but no guarantees.</td>
 	</tr>
 	<tr>
-		<th>img</th>
+		<th><a href="img">img</a></th>
 		<td><code>img &lt;image files...&gt;</code></td>
 		<td>E.g. <code>img photo001.jpg photo002.jpg</code></td>
 	</tr>
@@ -20,7 +20,7 @@ What each script does:
 		<td colspan=3>Displays images in the terminal in 24bit colour and using half-height block characters <code>▄</code>. Uses imagemagick so <a href="https://www.imagemagick.org/script/formats.php#supported">supports anything that does</a>.</td>
 	</tr>
 	<tr>
-		<th>s</th>
+		<th><a href="s">s</a></th>
 		<td>
       Host status: <code>s</code><br>
 			Service status: <code>s &lt;service name&gt;</code><br>
