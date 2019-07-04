@@ -5,7 +5,7 @@ rows="$(($(tput lines) * 2))"
 thumb="$( [[ $cols -lt $rows ]] && echo $cols || echo $rows )"
 
 for image in "$@"; do
-	convert -thumbnail "$thumb" -colorspace RGB "$image" txt:- |\
+	convert -thumbnail "$thumb" "$image" txt:- |\
 	awk -F '[)(,:]+' '
 		{col = $1; row = $2; red = $9; green = $10; blue = $11; alpha = $12; }
 		!/^#/   {
