@@ -1,17 +1,21 @@
 #!/usr/bin/env bash
 
-    for image in "$@"; do
-    	convert -thumbnail $(tput cols) "$image" txt:- |\
-    	awk -F '[)(,:]' '
-    		/white/ { $9=$10=$11=255 } # imagemagick randomly uses colour names instead of rgb values sometimes
-    		/black/ { $9=$10=$11=0   }
-    		!/^#/   {
-    			if ( $2 % 2 ) {
-    				if ( p[$1] == "0,0,0" ) { p[$1] = "1,0,0" } # change black to rgb(1,0,0) to workaround bug in some terminals that set it to terminal background colour
-    				split( p[$1], c, "," )
-    				printf "\033[48;2;" c[1] ";" c[2] ";" c[3] ";38;2;" $9 ";" $10 ";" $11 "m▄"
-    			}
-    			else { p[$1] = $9 "," $10 "," $11 } # store
-    		}'
-    	echo -e "\e[0;0m" # reset terminal colours
-    done
+cols="$(tput cols)"
+rows="$(($(tput lines) * 2))"
+thumb="$( [[ $cols -lt $rows ]] && echo $cols || echo $rows )"
+
+for image in "$@"; do
+	convert -thumbnail "$thumb" -colorspace RGB "$image" txt:- |\
+	awk -F '[)(,:]+' '
+		{col = $1; row = $2; red = $9; green = $10; blue = $11; alpha = $12; }
+		!/^#/   {
+			if ( row % 2 ) {
+				if ( red green blue alpha == "0001" ) { red = 1 } # change black to rgb(1,0,0) to workaround bug in some terminals that set it to terminal background colour
+				if ( bgR[col] bgG[col] bgB[col] bgA[col] == "0001" ) { bgR[col] = 1 }
+				printf "\033[48;2;" bgR[col] ";" bgG[col] ";" bgB[col] ";38;2;" red ";" green ";" blue "m"
+				if ( alpha != 0 ) { printf "▄" } else { printf " " }
+				if ( col == length(bgR)-1 ) { printf "\033[0;0m\n" }
+			}
+			else { bgR[col] = red; bgG[col] = green; bgB[col] = blue; bgA[col] = alpha } # store for background characters
+		}'
+done
