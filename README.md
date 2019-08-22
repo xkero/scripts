@@ -38,7 +38,7 @@ What each script does:
 		<td>E.g. <code>s</code>, <code>restart sshd</code>, <code>toggle transmission</code></td>
 	</tr>
 	<tr>
-		<td colspan=3>The <b>S</b>imple <b>S</b>hort <b>S</b>ervice <b>S</b>cript is an easier to type alternative to systemd's verbose <code>systemctl</code> for controlling services. Create these symbolic links to it <code>sudo for i in log start stop restart toggle stay leave reload; do ln -s /usr/local/bin/{s,$i}; end</code>.</td>
+		<td colspan=3>The <b>S</b>imple <b>S</b>hort <b>S</b>ervice <b>S</b>cript is an easier to type alternative to systemd's verbose <code>systemctl</code> for controlling services. Create these symbolic links to it <code>for i in log start stop restart toggle stay leave reload; do sudo ln -s /usr/local/bin/{s,$i}; done</code>.</td>
 	</tr>
 	<!-- Template to copy'n'paste
 	<tr>
