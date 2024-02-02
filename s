@@ -1,8 +1,13 @@
 #!/usr/bin/env bash
+
+ctl='sudo systemctl'
 action="${0/*\/}"
+[[ "${action:0:1}" ]] && ctl='systemctl --user' && action="${action:1}"
+
+
 case "$action" in
 	reload) if [[ -z "$@" ]]
-		then sudo systemctl daemon-reload && echo systemd reloaded || echo systemd reload failed; exit
+		then $ctl daemon-reload && echo systemd reloaded || echo systemd reload failed; exit
 		else action=reload
 	fi ;;
 	log) if [[ -n "$@" ]]
@@ -10,11 +15,11 @@ case "$action" in
 		else journalctl -f
 	fi
 	exit ;;
-	toggle) systemctl is-active "$@" >/dev/null && action=stop || action=start ;;
+	toggle) $ctl is-active "$@" >/dev/null && action=stop || action=start ;;
 	stay)  action=enable  ;;
 	leave) action=disable ;;
 	s)     action=status  ;;
 esac
 
-[[ "$action" != "status" ]] && sudo systemctl --no-pager "$action" "$@"
-systemctl --no-pager status "$@"
+[[ "$action" != "status" ]] && $ctl --no-pager "$action" "$@"
+$ctl --no-pager status "$@"
