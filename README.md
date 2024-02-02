@@ -22,10 +22,11 @@ What each script does:
 	<tr>
 		<th><a href="s">s</a></th>
 		<td>
-      Host status: <code>s</code><br>
-			Service status: <code>s &lt;service name&gt;</code><br>
 			Log: <code>log [journalctl args]</code><br>
-      Trailing service log: <code>log [service name]</code><br>
+			Trailing service log: <code>log [service name]</code><br>
+			<br>
+			Following commands can be prepended with <code>u</code> for user services:<br>
+			Service status: <code>s &lt;service name&gt;</code><br>
 			Start service: <code>start &lt;service name&gt;</code><br>
 			Stop service: <code>stop &lt;service name&gt;</code><br>
 			Restart service: <code>restart &lt;service name&gt;</code><br>
@@ -35,10 +36,10 @@ What each script does:
 			Reload systemd unit files: <code>reload</code><br>
 			Reload service's config: <code>reload &lt;service name&gt;</code>
 		</td>
-		<td>E.g. <code>s</code>, <code>restart sshd</code>, <code>toggle transmission</code></td>
+		<td>E.g. <code>s</code>, <code>restart sshd</code>, <code>toggle transmission</code>, <code>us sunshine</code>, <code>ustart sunshine</code></td>
 	</tr>
 	<tr>
-		<td colspan=3>The <b>S</b>imple <b>S</b>hort <b>S</b>ervice <b>S</b>cript is an easier to type alternative to systemd's verbose <code>systemctl</code> for controlling services. Create these symbolic links to it <code>for i in log start stop restart toggle stay leave reload; do sudo ln -s /usr/local/bin/{s,$i}; done</code>.</td>
+		<td colspan=3>The <b>S</b>imple <b>S</b>hort <b>S</b>ervice <b>S</b>cript is an easier to type alternative to systemd's verbose <code>systemctl</code> for controlling services. Place <code>s</code> in your bin folder and create these symbolic links to it <code>for i in log {u,}{start,stop,restart,toggle,stay,leave,reload}; do sudo ln -s /usr/local/bin/{s,$i}; done</code>.</td>
 	</tr>
 	<!-- Template to copy'n'paste
 	<tr>
