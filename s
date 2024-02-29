@@ -2,7 +2,7 @@
 
 ctl='sudo systemctl'
 action="${0/*\/}"
-[[ "${action:0:1}" ]] && ctl='systemctl --user' && action="${action:1}"
+[[ "${action:0:1}" = 'u' ]] && ctl='systemctl --user' && action="${action:1}"
 
 
 case "$action" in
